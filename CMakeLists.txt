@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( SkinThreshold )
+find_package( OpenCV REQUIRED )
+add_executable( SkinThreshold SkinThreshold.cpp )
+target_link_libraries( SkinThreshold ${OpenCV_LIBS} )
