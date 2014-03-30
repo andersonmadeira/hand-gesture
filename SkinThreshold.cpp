@@ -19,6 +19,8 @@ Mat frame, frame_gray, frame_blur, frame_thre, frame_final;
 int main(int argc, char* argv[]) {
   RNG rand(time(NULL));
   VideoCapture cap(0); // abre a camera n. 0 para captura
+  Rect bounding_rect;
+  int largest_area, largest_index;
   
   if (!cap.isOpened()) { // testa 
     cout << "Cannot open the video cam" << endl;
@@ -82,10 +84,16 @@ int main(int argc, char* argv[]) {
     Mat drawing = Mat::zeros( threshold_output.size(), CV_8UC3 );
     for( int i = 0; i< contours.size(); i++ )
     {
-      Scalar color = Scalar( rand.uniform(0, 255), rand.uniform(0,255), rand.uniform(0,255) );
-      drawContours( drawing, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-      drawContours( drawing, hull, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+      double a = contourArea(contours[i], false);
+      if (a > largest_area) {
+        largest_area = a;
+        largest_index = i;
+        bounding_rect = boundingRect(contours[i], false);
+      }
     }
+    
+    Scalar color = Scalar( rand.uniform(0, 255), rand.uniform(0,255), rand.uniform(0,255) );
+    drawContours( drawing, contours, largest_index, Scalar(255, 1, 1), 1, 8, vector<Vec4i>(), 0, Point() );
     
     /// Show in a window
     imshow( "Hull output", drawing );
