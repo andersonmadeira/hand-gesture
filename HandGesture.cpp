@@ -17,7 +17,6 @@ void on_change(int, void*);
 Mat frame, frame_gray, frame_blur, frame_thre, frame_final;
 
 int main(int argc, char* argv[]) {
-  RNG rand(time(NULL));
   VideoCapture cap(0); // abre a camera n. 0 para captura
   Rect bounding_rect;
   int largest_area = 0, largest_index = -1;
