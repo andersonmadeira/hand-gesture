@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
     
     cout << "Size: " << contours.size() << endl;
     
-    /// Draw contours + hull results
+    // pega a maior area
     Mat drawing = Mat::zeros( threshold_output.size(), CV_8UC3 );
     for( int i = 0; i< contours.size(); i++ )
     {
@@ -94,6 +94,7 @@ int main(int argc, char* argv[]) {
       }
     }
     
+    // se tiver encontrado um maior então desenha o convex hull e o contorno
     if (largest_index >= 0) {
       Scalar color = Scalar( rand.uniform(0, 255), rand.uniform(0,255), rand.uniform(0,255) );
       drawContours( drawing, contours, largest_index, Scalar(255, 1, 1), 1, 8, vector<Vec4i>(), 0, Point() );
