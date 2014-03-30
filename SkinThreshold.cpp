@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
   RNG rand(time(NULL));
   VideoCapture cap(0); // abre a camera n. 0 para captura
   Rect bounding_rect;
-  int largest_area, largest_index;
+  int largest_area = 0, largest_index = -1;
   
   if (!cap.isOpened()) { // testa 
     cout << "Cannot open the video cam" << endl;
@@ -39,6 +39,8 @@ int main(int argc, char* argv[]) {
 
   // laço que irá ler os frames da camera e aplicar o threshold a cada frame e deixa só a pele
   do {
+    largest_area = 0;
+    largest_index = -1;
 
     if (!cap.read(frame)) { //if not success, break loop
       cout << "Unable to read frame from video stream!" << endl;
@@ -88,12 +90,14 @@ int main(int argc, char* argv[]) {
       if (a > largest_area) {
         largest_area = a;
         largest_index = i;
-        bounding_rect = boundingRect(contours[i], false);
+        bounding_rect = boundingRect(contours[i]);
       }
     }
     
-    Scalar color = Scalar( rand.uniform(0, 255), rand.uniform(0,255), rand.uniform(0,255) );
-    drawContours( drawing, contours, largest_index, Scalar(255, 1, 1), 1, 8, vector<Vec4i>(), 0, Point() );
+    if (largest_index >= 0) {
+      Scalar color = Scalar( rand.uniform(0, 255), rand.uniform(0,255), rand.uniform(0,255) );
+      drawContours( drawing, contours, largest_index, Scalar(255, 1, 1), 1, 8, vector<Vec4i>(), 0, Point() );
+    }
     
     /// Show in a window
     imshow( "Hull output", drawing );
