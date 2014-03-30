@@ -72,16 +72,9 @@ int main(int argc, char* argv[]) {
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
     
-    /// Find contours
+    // Find contours
     findContours( threshold_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
-    
-    /// Find the convex hull object for each contour
-    vector<vector<Point> >hull( contours.size() );
-    for( int i = 0; i < contours.size(); i++ )
-    {  convexHull( Mat(contours[i]), hull[i], false ); }
-    
-    cout << "Size: " << contours.size() << endl;
-    
+
     // pega a maior area
     Mat drawing = Mat::zeros( threshold_output.size(), CV_8UC3 );
     for( int i = 0; i< contours.size(); i++ )
@@ -94,12 +87,20 @@ int main(int argc, char* argv[]) {
       }
     }
     
+    vector<Point> convex_hull(1);
+    vector<vector<Point> > vect_with_hull;
+    
     // se tiver encontrado um maior então desenha o convex hull e o contorno
     if (largest_index >= 0) {
-      Scalar color = Scalar( rand.uniform(0, 255), rand.uniform(0,255), rand.uniform(0,255) );
+      // calcula o convex hull do maior contorno
+      convexHull(Mat(contours[largest_index]), convex_hull, false);
+      vect_with_hull.push_back(convex_hull);
+      // desenha o contorno
       drawContours( drawing, contours, largest_index, Scalar(255, 1, 1), 1, 8, vector<Vec4i>(), 0, Point() );
-      drawContours( drawing, hull, largest_index, Scalar(255, 255, 255), 1, 8, vector<Vec4i>(), 0, Point() );
-      rectangle(drawing, bounding_rect,  Scalar(0,255,0),1, 8,0);
+      // desenha o convex hull
+      drawContours( drawing, vect_with_hull, 0, Scalar(255, 255, 255), 1, 8, vector<Vec4i>(), 0, Point() );
+      // desenha retangulo ao redor
+      rectangle(drawing, bounding_rect,  Scalar(0,255,0),1, 8,0);      
     }
     
     /// Show in a window
