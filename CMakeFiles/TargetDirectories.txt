@@ -1,1 +1,0 @@
-/home/anderson/Dropbox/Playground/OpenCV/SkinThreshold/CMakeFiles/SkinThreshold.dir
