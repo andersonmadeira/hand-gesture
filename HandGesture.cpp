@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
       }
     }
     
-    vector<Point> convex_hull(1);
+    vector<Point> convex_hull;
     vector<vector<Point> > vect_with_hull;
     
     // se tiver encontrado um maior então desenha o convex hull e o contorno
@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
       // desenha o convex hull
       drawContours( drawing, vect_with_hull, 0, Scalar(255, 255, 255), 1, 8, vector<Vec4i>(), 0, Point() );
       // desenha retangulo ao redor
-      rectangle(drawing, bounding_rect,  Scalar(0,255,0),1, 8,0);      
+      rectangle(drawing, bounding_rect,  Scalar(0,255,0),1, 8,0);
     }
     
     /// Show in a window
