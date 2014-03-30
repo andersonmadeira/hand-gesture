@@ -99,6 +99,7 @@ int main(int argc, char* argv[]) {
       Scalar color = Scalar( rand.uniform(0, 255), rand.uniform(0,255), rand.uniform(0,255) );
       drawContours( drawing, contours, largest_index, Scalar(255, 1, 1), 1, 8, vector<Vec4i>(), 0, Point() );
       drawContours( drawing, hull, largest_index, Scalar(255, 255, 255), 1, 8, vector<Vec4i>(), 0, Point() );
+      rectangle(drawing, bounding_rect,  Scalar(0,255,0),1, 8,0);
     }
     
     /// Show in a window
