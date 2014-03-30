@@ -100,7 +100,24 @@ int main(int argc, char* argv[]) {
       drawContours( drawing, vect_with_hull, 0, Scalar(255, 255, 255), 1, 8, vector<Vec4i>(), 0, Point() );
       // desenha retangulo ao redor
       rectangle(drawing, bounding_rect,  Scalar(0,255,0),1, 8,0);
+      
+      // mostra todos os pontos que tá no convex full
+      for(vector<Point>::iterator it = convex_hull.begin(); it != convex_hull.end(); it++) {
+        //cout << (*it) << " "; 
+        ellipse( drawing,
+                 (*it),
+                 Size(5,5),
+                 0.5,
+                 0,
+                 360,
+                 Scalar( 0, 255, 0 ),
+                 2,
+                 8 );
+      }
+      cout << endl;
     }
+    
+    
     
     /// Show in a window
     imshow( "Hull output", drawing );
